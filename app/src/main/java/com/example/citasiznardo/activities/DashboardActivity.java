@@ -18,10 +18,13 @@ public class DashboardActivity extends AppCompatActivity {
 
     public void onClickButton(View view) {
         Intent intent = new Intent();
-        switch (view.getId()) {
+        int id = view.getId();
+        switch (id) {
             case R.id.bGetQuotes:
+                //intent = new Intent(this, FavouriteActivity.class);
                 break;
             case R.id.bFavQuotes:
+                intent = new Intent(this, FavouriteActivity.class);
                 break;
             case R.id.bSettings:
                 intent = new Intent(this, SettingsActivity.class);

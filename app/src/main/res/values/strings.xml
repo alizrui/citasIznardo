@@ -13,4 +13,5 @@
     <string name="web_1">Web request will be performed using the selected HTTP method</string>
     <string name="get_s">GET</string>
     <string name="post_s">POST</string>
+    <string name="author_s">Author Info</string>
 </resources>

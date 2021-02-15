@@ -9,15 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CitasIznardo">
+        <activity android:name=".activities.QuotationActivity"></activity>
+        <activity
+            android:name=".activities.FavouriteActivity"
+            android:label="@string/fav_q" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            ></activity>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activities.AboutActivity"
-            android:label="@string/about"
-            ></activity>
+            android:label="@string/about" />
         <activity android:name=".activities.DashboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
