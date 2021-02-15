@@ -2,6 +2,7 @@ package com.example.citasiznardo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void onClickButton(View view) {
+        Intent intent = new Intent();
         switch (view.getId()) {
             case R.id.bGetQuotes:
                 break;
@@ -23,9 +25,10 @@ public class DashboardActivity extends AppCompatActivity {
             case R.id.bSettings:
                 break;
             case R.id.bAbout:
+                intent = new Intent(this, AboutActivity.class);
                 break;
         }
-        //startActivity(intent);
+        startActivity(intent);
 
     }
 }
