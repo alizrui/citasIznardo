@@ -21,7 +21,7 @@ public class DashboardActivity extends AppCompatActivity {
         int id = view.getId();
         switch (id) {
             case R.id.bGetQuotes:
-                //intent = new Intent(this, FavouriteActivity.class);
+                intent = new Intent(this, QuotationActivity.class);
                 break;
             case R.id.bFavQuotes:
                 intent = new Intent(this, FavouriteActivity.class);

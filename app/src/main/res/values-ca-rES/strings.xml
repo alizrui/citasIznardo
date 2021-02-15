@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="get_q">Obtin cites</string>
+    <string name="fav_q">Cites favorites</string>
+    <string name="settings">Paràmetres</string>
+    <string name="about">Sobre</string>
+    <string name="random_q">Cita aleatòria</string>
+    <string name="name_1">Nom que identifica l\'usuari</string>
+    <string name="name_2">Introdueix el teu nom</string>
+    <string name="quotes_1">Les cites serñan donades en l\'idioma seleccionat</string>
+    <string name="web_1">la sol·licitud web es realitzarà mitjançant el mètode http seleccionat</string>
+    <string name="author_s">Informació de l\'autor</string>
+    <string name="hello_s">Hola %1s!</string>
+    <string name="sample_quo">Açò és una cita d\'exemple</string>
+    <string name="sample_aut">Açò és u n autor d\'exemple</string>
+</resources>
