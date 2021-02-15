@@ -1,11 +1,12 @@
-package com.example.citasiznardo;
+package com.example.citasiznardo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+
+import com.example.citasiznardo.R;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class DashboardActivity extends AppCompatActivity {
             case R.id.bFavQuotes:
                 break;
             case R.id.bSettings:
+                intent = new Intent(this, SettingsActivity.class);
                 break;
             case R.id.bAbout:
                 intent = new Intent(this, AboutActivity.class);

@@ -7,4 +7,10 @@
     <string name="random_q">Random quotations</string>
     <string name="shake_q">Quotation Shake</string>
     <string name="quote_info">Quotation Shake by \n\nAlejandro Iznardo\n\nalizrui@inf.upv.es\n\n2020</string>
+    <string name="name_1">Name that identifies the user</string>
+    <string name="name_2">Insert your name</string>
+    <string name="quotes_1">Quotations will be received in the selected language</string>
+    <string name="web_1">Web request will be performed using the selected HTTP method</string>
+    <string name="get_s">GET</string>
+    <string name="post_s">POST</string>
 </resources>

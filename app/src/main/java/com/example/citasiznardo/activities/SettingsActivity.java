@@ -1,14 +1,16 @@
-package com.example.citasiznardo;
+package com.example.citasiznardo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class AboutActivity extends AppCompatActivity {
+import com.example.citasiznardo.R;
+
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_settings);
     }
 }
