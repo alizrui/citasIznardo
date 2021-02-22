@@ -1,32 +1,54 @@
 package com.example.citasiznardo.activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.Toast;
 
 import com.example.citasiznardo.R;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import adapter.Quotation;
 import adapter.RecyclerAux;
 
 public class FavouriteActivity extends AppCompatActivity {
 
+    private RecyclerAux recAux;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
 
-        RecyclerAux recycler = new RecyclerAux(getMockQuotations());
-        RecyclerView rview = findViewById(R.id.idFavourite);
+        recAux = new RecyclerAux(getMockQuotations(), position -> {
+            try {
+                getWiki(position);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }, position -> {
+            dialogAndRemove(position);
+        });
+        RecyclerView view = findViewById(R.id.idFavourite);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
 
+        view.setLayoutManager(manager);
+        view.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-
+        view.setAdapter(recAux);
     }
 
     public ArrayList<Quotation> getMockQuotations(){
@@ -42,17 +64,31 @@ public class FavouriteActivity extends AppCompatActivity {
         lista.add(new Quotation("“No nacemos como mujer, sino que nos convertimos en una.”","Simone de Beauvoir"));
         lista.add(new Quotation("“Por ser rico, guapo y un gran jugador las personas tienen envidia de mí”","Cristiano Ronaldo"));
         lista.add(new Quotation("“Yo sólo confío en mí mismo.”","Jose María Aznar"));
+        lista.add(new Quotation("“El rey es mi padre.”",""));
         return lista;
     }
 
-    public void authorInfo(View view) {
+    private void getWiki (int pos) throws UnsupportedEncodingException {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
 
-        String authorName = "Albert Einstein";
-        String link = "https://en.wikipedia.org/wiki/Special:Search?search=";
-        intent.setData(Uri.parse(link+authorName));
+        String authorName = recAux.getAutFromPos(pos);
 
-        startActivity(intent);
+        if(authorName == null || authorName == ""){
+            Toast.makeText(this,"There is no information",Toast.LENGTH_SHORT).show();
+        } else {
+            String authorNameEncoded = URLEncoder.encode(authorName, "utf-8");
+            String link = "https://en.wikipedia.org/wiki/Special:Search?search=";
+            intent.setData(Uri.parse(link + authorNameEncoded));
+            startActivity(intent);
+        }
+    }
+
+    public void dialogAndRemove(int pos){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_q);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> recAux.removeItem(pos));
+        builder.setNegativeButton(R.string.no, null);
+        builder.create().show();
     }
 }

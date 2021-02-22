@@ -17,4 +17,8 @@
     <string name="hello_s">Hello %1s! \nPress Refresh to get a new quotation</string>
     <string name="sample_quo">This is a sample quotation</string>
     <string name="sample_aut">This is a sample author</string>
+    <string name="dialog_q" translatable="false">Are you sure that you want to delete this quotation?</string>
+    <string name="yes" translatable="false">Yes</string>
+    <string name="no" translatable="false">No</string>
+    <string name="add_q" translatable="false">Add</string>
 </resources>

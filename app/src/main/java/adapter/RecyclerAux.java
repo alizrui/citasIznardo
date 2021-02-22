@@ -13,19 +13,23 @@ import com.example.citasiznardo.R;
 
 public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
     private List<Quotation> lista;
+    private OnItemClickListener intListener;
+    private OnItemLongClickListener intLongListener;
 
-    public RecyclerAux(List<Quotation> list){
+    public RecyclerAux(List<Quotation> list, OnItemClickListener onIntList, OnItemLongClickListener onIntLongList){
         this.lista = list;
+        intListener = onIntList;
+        intLongListener = onIntLongList;
     }
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_favourite, parent, false);
-        RecyclerAux.ViewHolder holder = new ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_list_row, parent, false);
+        RecyclerAux.ViewHolder holder = new ViewHolder(view, intListener, intLongListener);
         return holder;
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.tvAutor.setText(lista.get(position).getQuoteAuthor());
+        holder.tvAuthor.setText(lista.get(position).getQuoteAuthor());
         holder.tvQuote.setText(lista.get(position).getQuoteText());
     }
 
@@ -33,14 +37,39 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
         return lista.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvAutor;
-        private TextView tvQuote;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvAutor = (TextView) itemView.findViewById(R.id.tvListAuthor);
-            tvQuote = (TextView) itemView.findViewById(R.id.tvListQuote);
-        }
-
+    public String getAutFromPos(int position){
+        return lista.get(position).getQuoteAuthor();
     }
+
+    public void removeItem(int position){
+        lista.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvAuthor;
+        public TextView tvQuote;
+
+        public ViewHolder(View itemView, OnItemClickListener intListener, OnItemLongClickListener intLongListener) {
+            super(itemView);
+            tvAuthor = (TextView) itemView.findViewById(R.id.tvListAuthor);
+            tvQuote = (TextView) itemView.findViewById(R.id.tvListQuote);
+            itemView.setOnClickListener(v -> {
+                intListener.onItemClickListener(getAdapterPosition());
+            });
+            itemView.setOnLongClickListener(v -> {
+                intLongListener.onItemLongClickListener(getAdapterPosition());
+                return true;
+            });
+        }
+    }
+    public interface OnItemClickListener {
+        void onItemClickListener(int position);
+    }
+
+    public interface OnItemLongClickListener {
+        void onItemLongClickListener(int position);
+    }
+
+
 }
