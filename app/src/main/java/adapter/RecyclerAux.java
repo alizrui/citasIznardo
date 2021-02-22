@@ -46,6 +46,11 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
         notifyItemRemoved(position);
     }
 
+    public void removeAllItems(){
+        lista.removeAll(lista);
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView tvAuthor;
         public TextView tvQuote;

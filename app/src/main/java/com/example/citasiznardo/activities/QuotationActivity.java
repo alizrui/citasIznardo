@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +22,26 @@ public class QuotationActivity extends AppCompatActivity {
 
         String tvText = (String) tvScroll.getText();
         tvScroll.setText(tvText.replace("%1s","Alejandro"));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.quotation_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.item_add:
+                return true;
+            case R.id.item_refresh:
+                onClicAuthor(item.getActionView());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     public void onClicAuthor(View view) {

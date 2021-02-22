@@ -21,4 +21,7 @@
     <string name="yes" translatable="false">Yes</string>
     <string name="no" translatable="false">No</string>
     <string name="add_q" translatable="false">Add</string>
+    <string name="refresh_q" translatable="false">Refresh</string>
+    <string name="delete_q" translatable="false">Clear all</string>
+    <string name="dialogrmall_q" translatable="false">Are you sure that you want to delete ALL your favourite quotations?</string>
 </resources>

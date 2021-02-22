@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
@@ -49,6 +51,26 @@ public class FavouriteActivity extends AppCompatActivity {
         view.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         view.setAdapter(recAux);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        if(recAux.getItemCount() != 0) getMenuInflater().inflate(R.menu.quotation_menu_2, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialogrmall_q);
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+            recAux.removeAllItems();
+            findViewById(item.getItemId()).setVisibility(View.INVISIBLE);
+        });
+        builder.setNegativeButton(R.string.no, null);
+        builder.create().show();
+        return true;
     }
 
     public ArrayList<Quotation> getMockQuotations(){
