@@ -62,15 +62,20 @@ public class FavouriteActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialogrmall_q);
-        builder.setPositiveButton(R.string.yes, (dialog, which) -> {
-            recAux.removeAllItems();
-            findViewById(item.getItemId()).setVisibility(View.INVISIBLE);
-        });
-        builder.setNegativeButton(R.string.no, null);
-        builder.create().show();
-        return true;
+        switch (item.getItemId()) {
+            case R.id.item_delete:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.dialogrmall_q);
+                builder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                    recAux.removeAllItems();
+                    findViewById(item.getItemId()).setVisibility(View.INVISIBLE);
+                });
+                builder.setNegativeButton(R.string.no, null);
+                builder.create().show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public ArrayList<Quotation> getMockQuotations(){

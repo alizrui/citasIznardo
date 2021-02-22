@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".activities.DashboardActivity">
 
     <Button
@@ -12,6 +13,8 @@
         android:layout_height="181dp"
         android:onClick="onClickButton"
         android:text="@string/get_q"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toTopOf="@+id/bFavQuotes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -24,6 +27,8 @@
         android:layout_height="182dp"
         android:onClick="onClickButton"
         android:text="@string/fav_q"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toTopOf="@+id/bSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -36,6 +41,8 @@
         android:layout_height="181dp"
         android:onClick="onClickButton"
         android:text="@string/settings"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toTopOf="@+id/bAbout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,6 +55,8 @@
         android:layout_height="182dp"
         android:onClick="onClickButton"
         android:text="@string/about"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

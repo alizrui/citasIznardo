@@ -20,7 +20,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/settings_style"/>
 
         <EditText
             android:id="@+id/edittextset"
@@ -34,19 +35,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvset1" />
+            app:layout_constraintTop_toBottomOf="@+id/tvset1"
+            style="@style/settings_style"/>
 
         <TextView
             android:id="@+id/tvset2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/quotes_1"
-            android:layout_margin="8dp"
             app:layout_constraintBottom_toTopOf="@+id/spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edittextset" />
+            app:layout_constraintTop_toBottomOf="@+id/edittextset"
+            tools:ignore="SpUsage"
+            style="@style/settings_style" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -58,7 +59,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvset2" />
+            app:layout_constraintTop_toBottomOf="@+id/tvset2"
+            />
 
         <TextView
             android:id="@+id/tvset3"
@@ -70,7 +72,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/spinner"
+            style="@style/settings_style"/>
 
         <RadioGroup
             android:id="@+id/rgroupset"
@@ -88,14 +91,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@string/get_s" />
+                android:text="@string/get_s"
+                style="@style/settings_style"/>
 
             <RadioButton
                 android:id="@+id/rbset_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="@string/post_s" />
+                android:text="@string/post_s"
+                style="@style/settings_style"/>
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
