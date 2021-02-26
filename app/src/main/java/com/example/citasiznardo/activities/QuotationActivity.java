@@ -41,7 +41,6 @@ public class QuotationActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     public void onClicAuthor(View view) {
