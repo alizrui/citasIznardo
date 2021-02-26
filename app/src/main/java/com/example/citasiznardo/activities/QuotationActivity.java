@@ -2,7 +2,9 @@ package com.example.citasiznardo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +23,9 @@ public class QuotationActivity extends AppCompatActivity {
         final TextView tvScroll = findViewById(R.id.tvScroll1);
 
         String tvText = (String) tvScroll.getText();
-        tvScroll.setText(tvText.replace("%1s","Alejandro"));
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = prefs.getString("username", "");
+        tvScroll.setText(tvText.replace("%1s", (name==null || name == "") ? "Nameless One" : name));
     }
 
     @Override
