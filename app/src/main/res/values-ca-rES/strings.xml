@@ -5,12 +5,21 @@
     <string name="settings">Paràmetres</string>
     <string name="about">Sobre</string>
     <string name="random_q">Cita aleatòria</string>
-    <string name="name_1">Nom que identifica l\'usuari</string>
+    <string name="name_1">Nom d\'usuari</string>
     <string name="name_2">Introdueix el teu nom</string>
-    <string name="quotes_1">Les cites serñan donades en l\'idioma seleccionat</string>
-    <string name="web_1">la sol·licitud web es realitzarà mitjançant el mètode http seleccionat</string>
     <string name="author_s">Informació de l\'autor</string>
     <string name="hello_s">Hola %1s!</string>
     <string name="sample_quo">Açò és una cita d\'exemple</string>
     <string name="sample_aut">Açò és u n autor d\'exemple</string>
+    <string name="delete_q">Esborra tots</string>
+    <string name="refresh_q">Refresca</string>
+    <string name="add_q">Afegeix</string>
+    <string name="no">No</string>
+    <string name="yes">Sí</string>
+    <string name="dialog_q">Segur que vols esborrar?</string>
+    <string name="language_1">Idioma</string>
+    <string name="language_2">Les cites seran recibides en aquest idioma</string>
+    <string name="http_2">la sol·licitud web es realitzarà mitjançant aquest mètode http</string>
+    <string name="http_1">Métode HTTP</string>
+    <string name="webservice_1">Paràmetres del servei web</string>
 </resources>

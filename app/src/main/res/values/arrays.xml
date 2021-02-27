@@ -3,5 +3,7 @@
     <array name="arr_1">
         <item>English</item>
         <item>Russian</item>
+        <item>GET</item>
+        <item>POST</item>
     </array>
 </resources>

@@ -7,21 +7,25 @@
     <string name="random_q">Random quotations</string>
     <string name="shake_q" translatable="false">Quotation Shake</string>
     <string name="quote_info" translatable="false">Quotation Shake by \n\nAlejandro Iznardo\n\nalizrui@inf.upv.es\n\n2020</string>
-    <string name="name_1">Name that identifies the user</string>
-    <string name="name_2">Insert your name</string>
-    <string name="quotes_1">Quotations will be received in the selected language</string>
-    <string name="web_1">Web request will be performed using the selected HTTP method</string>
     <string name="get_s" translatable="false">GET</string>
     <string name="post_s" translatable="false">POST</string>
     <string name="author_s">Author Info</string>
     <string name="hello_s">Hello %1s! \nPress Refresh to get a new quotation</string>
-    <string name="sample_quo">This is a sample quotation</string>
-    <string name="sample_aut">This is a sample author</string>
-    <string name="dialog_q" translatable="false">Are you sure that you want to delete this quotation?</string>
-    <string name="yes" translatable="false">Yes</string>
-    <string name="no" translatable="false">No</string>
-    <string name="add_q" translatable="false">Add</string>
-    <string name="refresh_q" translatable="false">Refresh</string>
-    <string name="delete_q" translatable="false">Clear all</string>
+    <string name="sample_quo">This is a sample quote %1$d</string>
+    <string name="sample_aut">This is a sample author %1$d</string>
+    <string name="dialog_q">Are you sure that you want to delete this quotation?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="add_q">Add</string>
+    <string name="refresh_q">Refresh</string>
+    <string name="delete_q">Clear all</string>
     <string name="dialogrmall_q" translatable="false">Are you sure that you want to delete ALL your favourite quotations?</string>
+    <string name="name_1">User name</string>
+    <string name="name_2">Name that identifies the user</string>
+    <string name="webservice_1">Web services parameters</string>
+    <string name="webservice_2" translatable="false">x</string>
+    <string name="http_1">HTTP method</string>
+    <string name="http_2">Web request will be performed using this HTTP method</string>
+    <string name="language_1">Language</string>
+    <string name="language_2">Quotations will be received in this language</string>
 </resources>

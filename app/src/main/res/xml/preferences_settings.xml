@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="@string/name_1"
+        android:summary="@string/name_2"
+        android:defaultValue=""
+        android:key="username"/>
+    <PreferenceCategory>
+        <ListPreference
+            android:title="@string/webservice_1"
+            android:summary="@string/webservice_2"
+            android:key="webservice" />
+        <ListPreference
+            android:title="@string/http_1"
+            android:summary="@string/http_2"
+            android:key="http" />
+    </PreferenceCategory>
+</PreferenceScreen>
