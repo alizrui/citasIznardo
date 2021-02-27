@@ -16,6 +16,7 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
     private OnItemClickListener intListener;
     private OnItemLongClickListener intLongListener;
 
+
     public RecyclerAux(List<Quotation> list, OnItemClickListener onIntList, OnItemLongClickListener onIntLongList){
         this.lista = list;
         intListener = onIntList;
@@ -63,7 +64,7 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
                 intListener.onItemClickListener(getAdapterPosition());
             });
             itemView.setOnLongClickListener(v -> {
-                intLongListener.onItemLongClickListener(getAdapterPosition());
+                intLongListener.onItemLongClickListener((String) tvQuote.getText());
                 return true;
             });
         }
@@ -73,7 +74,8 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
     }
 
     public interface OnItemLongClickListener {
-        void onItemLongClickListener(int position);
+        //void onItemLongClickListener(int position);
+        void onItemLongClickListener(String quote);
     }
 
 

@@ -6,16 +6,13 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.example.citasiznardo.R;
@@ -25,6 +22,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import adapter.Quotation;
 import adapter.RecyclerAux;
+import databases.MySqliteOpenHelper;
 
 public class FavouriteActivity extends AppCompatActivity {
 
@@ -35,14 +33,14 @@ public class FavouriteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
 
-        recAux = new RecyclerAux(getMockQuotations(), position -> {
+        recAux = new RecyclerAux(MySqliteOpenHelper.getInstance(this).getQuotations(), position -> {
             try {
                 getWiki(position);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-        }, position -> {
-            dialogAndRemove(position);
+        }, quote -> {
+            dialogAndRemove(quote);
         });
         RecyclerView view = findViewById(R.id.idFavourite);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
@@ -67,8 +65,8 @@ public class FavouriteActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.dialogrmall_q);
                 builder.setPositiveButton(R.string.yes, (dialog, which) -> {
-                    recAux.removeAllItems();
-                    findViewById(item.getItemId()).setVisibility(View.INVISIBLE);
+                    MySqliteOpenHelper.getInstance(this).removeAllQuotes();
+                    item.setVisible(false);
                 });
                 builder.setNegativeButton(R.string.no, null);
                 builder.create().show();
@@ -111,10 +109,11 @@ public class FavouriteActivity extends AppCompatActivity {
         }
     }
 
-    public void dialogAndRemove(int pos){
+    //public void dialogAndRemove(int pos){
+    public void dialogAndRemove(String quote){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_q);
-        builder.setPositiveButton(R.string.yes, (dialog, which) -> recAux.removeItem(pos));
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> MySqliteOpenHelper.getInstance(this).removeQuote(quote));
         builder.setNegativeButton(R.string.no, null);
         builder.create().show();
     }
