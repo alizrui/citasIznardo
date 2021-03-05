@@ -8,8 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,30 +22,45 @@ import android.widget.Toast;
 import com.example.citasiznardo.R;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
+
 import adapter.Quotation;
 import adapter.RecyclerAux;
 import databases.MySqliteOpenHelper;
+import databases.QuotationDatabase;
+import databases.QuotesDao;
 
 public class FavouriteActivity extends AppCompatActivity {
 
     private RecyclerAux recAux;
+    //private final WeakReference<FavouriteActivity> reference;
+    private Boolean databaseMode = true; // sqlite = false, room = true
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
 
-        recAux = new RecyclerAux(MySqliteOpenHelper.getInstance(this).getQuotations(), position -> {
+
+
+        ArrayList<Quotation> arrayQuotes = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        databaseMode = !prefs.getString("database", "").equals(getResources().getString(R.string.sqlite));
+        arrayQuotes = (databaseMode) ? (ArrayList<Quotation>) QuotationDatabase.getInstance(this).quotesDao().getQuotes() : MySqliteOpenHelper.getInstance(this).getQuotations();
+
+        //recAux = new RecyclerAux(arrayQuotes, position -> {
+        recAux = new RecyclerAux(new ArrayList<Quotation>(), position -> { //ej2
             try {
                 getWiki(position);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-        }, quote -> {
-            dialogAndRemove(quote);
-        });
+        }, this::dialogAndRemove);
+
         RecyclerView view = findViewById(R.id.idFavourite);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
 
@@ -65,7 +84,23 @@ public class FavouriteActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.dialogrmall_q);
                 builder.setPositiveButton(R.string.yes, (dialog, which) -> {
-                    MySqliteOpenHelper.getInstance(this).removeAllQuotes();
+                    if(databaseMode) {
+                        QuotationDatabase quotationDatabase = QuotationDatabase.getInstance(this);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                quotationDatabase.quotesDao().deleteAllQuotes();
+                            }
+                        }).start();
+                    } else {
+                        MySqliteOpenHelper mySqliteOpenHelper = MySqliteOpenHelper.getInstance(this);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mySqliteOpenHelper.removeAllQuotes();
+                            }
+                        }).start();
+                    }
                     item.setVisible(false);
                 });
                 builder.setNegativeButton(R.string.no, null);
@@ -75,6 +110,8 @@ public class FavouriteActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void addAndRefreshFav(List<Quotation> lista){}
 
     public ArrayList<Quotation> getMockQuotations(){
         ArrayList<Quotation> lista = new ArrayList<Quotation>();
@@ -110,10 +147,17 @@ public class FavouriteActivity extends AppCompatActivity {
     }
 
     //public void dialogAndRemove(int pos){
-    public void dialogAndRemove(String quote){
+    public void dialogAndRemove(String quote) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_q);
-        builder.setPositiveButton(R.string.yes, (dialog, which) -> MySqliteOpenHelper.getInstance(this).removeQuote(quote));
+        builder.setPositiveButton(R.string.yes, (dialog, which) -> { //MySqliteOpenHelper.getInstance(this).removeQuote(quote.getQuoteText()));
+                    if (databaseMode) {
+                        QuotesDao dao = QuotationDatabase.getInstance(this).quotesDao();
+                        dao.deleteQuote(dao.findQuote(quote));
+                    } else {
+                        MySqliteOpenHelper.getInstance(this).removeQuote(quote);
+                    }
+                });
         builder.setNegativeButton(R.string.no, null);
         builder.create().show();
     }

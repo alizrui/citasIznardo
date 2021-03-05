@@ -2,6 +2,7 @@ package com.example.citasiznardo.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
     }
 
+    @SuppressLint("NonConstantResourceId")
     public void onClickButton(View view) {
         Intent intent = new Intent();
         int id = view.getId();

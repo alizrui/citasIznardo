@@ -3,7 +3,13 @@
     <array name="arr_1">
         <item>English</item>
         <item>Russian</item>
-        <item>GET</item>
-        <item>POST</item>
+    </array>
+    <array name="http_array">
+        <item>@string/get</item>
+        <item>@string/post</item>
+    </array>
+    <array name="databases_array">
+        <item>@string/room</item>
+        <item>@string/sqlite</item>
     </array>
 </resources>

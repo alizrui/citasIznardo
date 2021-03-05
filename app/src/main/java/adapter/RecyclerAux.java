@@ -60,6 +60,7 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
             super(itemView);
             tvAuthor = (TextView) itemView.findViewById(R.id.tvListAuthor);
             tvQuote = (TextView) itemView.findViewById(R.id.tvListQuote);
+
             itemView.setOnClickListener(v -> {
                 intListener.onItemClickListener(getAdapterPosition());
             });
@@ -76,6 +77,7 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
     public interface OnItemLongClickListener {
         //void onItemLongClickListener(int position);
         void onItemLongClickListener(String quote);
+        //void onItemLongClickListener(Quotation quote);
     }
 
 

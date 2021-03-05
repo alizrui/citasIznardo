@@ -19,7 +19,7 @@
     <string name="add_q">Add</string>
     <string name="refresh_q">Refresh</string>
     <string name="delete_q">Clear all</string>
-    <string name="dialogrmall_q" translatable="false">Are you sure that you want to delete ALL your favourite quotations?</string>
+    <string name="dialogrmall_q">Are you sure that you want to delete ALL your favourite quotations?</string>
     <string name="name_1">User name</string>
     <string name="name_2">Name that identifies the user</string>
     <string name="webservice_1">Web services parameters</string>
@@ -28,4 +28,10 @@
     <string name="http_2">Web request will be performed using this HTTP method</string>
     <string name="language_1">Language</string>
     <string name="language_2">Quotations will be received in this language</string>
+    <string name="databases_1">Databases</string>
+    <string name="databases_2">Database management method</string>
+    <string name="room" translatable="false">Room</string>
+    <string name="sqlite" translatable="false">SQLiteOpenHelper</string>
+    <string name="get" translatable="false">GET</string>
+    <string name="post" translatable="false">POST</string>
 </resources>

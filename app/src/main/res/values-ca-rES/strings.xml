@@ -22,4 +22,7 @@
     <string name="http_2">la sol·licitud web es realitzarà mitjançant aquest mètode http</string>
     <string name="http_1">Métode HTTP</string>
     <string name="webservice_1">Paràmetres del servei web</string>
+    <string name="dialogrmall_q">Segur que vols esborrar totes les cites?</string>
+    <string name="databases_1" translatable="false">Bases de dades</string>
+    <string name="databases_2">Gestió de la base de dades</string>
 </resources>

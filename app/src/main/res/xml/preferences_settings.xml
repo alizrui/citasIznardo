@@ -13,6 +13,20 @@
         <ListPreference
             android:title="@string/http_1"
             android:summary="@string/http_2"
-            android:key="http" />
+            android:key="http"
+            android:entries="@array/http_array"
+            android:entryValues="@array/http_array"
+            android:defaultValue="@string/post"
+            />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Preference category">
+        <ListPreference
+            android:title="@string/databases_1"
+            android:summary="@string/databases_2"
+            android:key="database"
+            android:entries="@array/databases_array"
+            android:entryValues="@array/databases_array"
+            android:defaultValue="@string/room"
+            />
     </PreferenceCategory>
 </PreferenceScreen>

@@ -17,7 +17,9 @@ import com.example.citasiznardo.R;
 
 import org.w3c.dom.Text;
 
+import adapter.Quotation;
 import databases.MySqliteOpenHelper;
+import databases.QuotationDatabase;
 
 public class QuotationActivity extends AppCompatActivity {
 
@@ -26,6 +28,7 @@ public class QuotationActivity extends AppCompatActivity {
     private Menu optionsMenu = null;
     private TextView tvScroll;
     private TextView tvAuthor;
+    private Boolean databaseMode = true; // sqlite = false, room = true
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class QuotationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quotation);
         tvScroll = findViewById(R.id.tvScroll1);
         tvAuthor = findViewById(R.id.tvAuthor);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        databaseMode = !prefs.getString("database", "").equals(getResources().getString(R.string.sqlite));
         if(savedInstanceState != null) {
             numCitas = savedInstanceState.getInt("citas_num");
             tvScroll.setText(savedInstanceState.getString("quote_key"));
@@ -40,9 +45,8 @@ public class QuotationActivity extends AppCompatActivity {
             addVisible = savedInstanceState.getBoolean("visible_add");
 
         } else {
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             String name = prefs.getString("username", "");
-            tvScroll.setText(String.format((String) tvScroll.getText(), (name == null || name == "") ? "Nameless One" : name));
+            tvScroll.setText(String.format((String) tvScroll.getText(), (name == null || name.equals("")) ? "Nameless One" : name));
         }
     }
 
@@ -54,17 +58,34 @@ public class QuotationActivity extends AppCompatActivity {
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.item_add:
-                MySqliteOpenHelper.getInstance(this).addQuotation((String) tvScroll.getText(), (String) tvAuthor.getText());
+                if(databaseMode){
+                    QuotationDatabase quotationDatabase = QuotationDatabase.getInstance(this);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            quotationDatabase.quotesDao().addQuote(new Quotation((String) tvScroll.getText(), (String) tvAuthor.getText()));
+                        }
+                    }).start();
+                } else {
+                    MySqliteOpenHelper mySqliteOpenHelper = MySqliteOpenHelper.getInstance(this);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mySqliteOpenHelper.addQuotation((String) tvScroll.getText(), (String) tvAuthor.getText());
+                        }
+                    }).start();
+                }
                 item.setVisible(false);
                 addVisible = false;
                 return true;
             case R.id.item_refresh:
                 onClicAuthor(item.getActionView());
-                optionsMenu.findItem(R.id.item_add).setVisible(addVisible ? true : false);
+                optionsMenu.findItem(R.id.item_add).setVisible(addVisible);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -79,7 +100,24 @@ public class QuotationActivity extends AppCompatActivity {
         tvScroll.setText(String.format(quote,numCitas));
         tvAuthor.setText(String.format(author,numCitas));
 
-        addVisible = !MySqliteOpenHelper.getInstance(this).isQuotation((String) tvScroll.getText());
+        if(databaseMode){
+            QuotationDatabase quotationDatabase = QuotationDatabase.getInstance(this);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Quotation aux = quotationDatabase.quotesDao().findQuote((String) tvScroll.getText());
+                    addVisible = (aux == null);
+                }
+            }).start();
+        } else {
+            MySqliteOpenHelper mySqliteOpenHelper = MySqliteOpenHelper.getInstance(this);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    addVisible = !mySqliteOpenHelper.isQuotation((String) tvScroll.getText());
+                }
+            }).start();
+        }
     }
 
     @Override
