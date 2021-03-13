@@ -12,4 +12,12 @@
         <item>@string/room</item>
         <item>@string/sqlite</item>
     </array>
+    <array name="language_array">
+        <item>@string/english</item>
+        <item>@string/russian</item>
+    </array>
+    <array name="language_values">
+        <item>@string/en</item>
+        <item>@string/ru</item>
+    </array>
 </resources>

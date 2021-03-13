@@ -23,6 +23,7 @@ import com.example.citasiznardo.R;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,25 +33,19 @@ import adapter.RecyclerAux;
 import databases.MySqliteOpenHelper;
 import databases.QuotationDatabase;
 import databases.QuotesDao;
+import threads.QuotationThread;
 
 public class FavouriteActivity extends AppCompatActivity {
 
-    private RecyclerAux recAux;
-    //private final WeakReference<FavouriteActivity> reference;
+    private RecyclerAux recAux; // adapter
     private Boolean databaseMode = true; // sqlite = false, room = true
-
+    private Menu optionsMenu = null;
+    private MenuItem itemDelete = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favourite);
-
-
-
-        ArrayList<Quotation> arrayQuotes = null;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        databaseMode = !prefs.getString("database", "").equals(getResources().getString(R.string.sqlite));
-        arrayQuotes = (databaseMode) ? (ArrayList<Quotation>) QuotationDatabase.getInstance(this).quotesDao().getQuotes() : MySqliteOpenHelper.getInstance(this).getQuotations();
 
         //recAux = new RecyclerAux(arrayQuotes, position -> {
         recAux = new RecyclerAux(new ArrayList<Quotation>(), position -> { //ej2
@@ -68,11 +63,24 @@ public class FavouriteActivity extends AppCompatActivity {
         view.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         view.setAdapter(recAux);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        databaseMode = !prefs.getString("database", "").equals(getResources().getString(R.string.sqlite));
+
+        QuotationThread thread = new QuotationThread(this, databaseMode);
+        thread.start();
+    }
+
+    public void addAndRefreshFav(ArrayList<Quotation> list){
+        recAux.addItems(list);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        if(recAux.getItemCount() != 0) getMenuInflater().inflate(R.menu.quotation_menu_2, menu);
+        if(recAux.getItemCount() != 0)
+            getMenuInflater().inflate(R.menu.quotation_menu_2, menu);
+        optionsMenu = menu;
+        itemDelete = optionsMenu.findItem(R.id.item_delete);
         return true;
     }
 
@@ -102,6 +110,7 @@ public class FavouriteActivity extends AppCompatActivity {
                         }).start();
                     }
                     item.setVisible(false);
+                    recAux.removeAllItems();
                 });
                 builder.setNegativeButton(R.string.no, null);
                 builder.create().show();
@@ -111,7 +120,6 @@ public class FavouriteActivity extends AppCompatActivity {
         }
     }
 
-    public void addAndRefreshFav(List<Quotation> lista){}
 
     public ArrayList<Quotation> getMockQuotations(){
         ArrayList<Quotation> lista = new ArrayList<Quotation>();
@@ -146,17 +154,33 @@ public class FavouriteActivity extends AppCompatActivity {
         }
     }
 
-    //public void dialogAndRemove(int pos){
-    public void dialogAndRemove(String quote) {
+    public void dialogAndRemove(int pos){
+    //public void dialogAndRemove(String quote) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.dialog_q);
         builder.setPositiveButton(R.string.yes, (dialog, which) -> { //MySqliteOpenHelper.getInstance(this).removeQuote(quote.getQuoteText()));
                     if (databaseMode) {
                         QuotesDao dao = QuotationDatabase.getInstance(this).quotesDao();
-                        dao.deleteQuote(dao.findQuote(quote));
+                        String quote = recAux.getQuoteFromPos(pos);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dao.deleteQuote(dao.findQuote(quote));
+                            }
+                        }).start();
                     } else {
-                        MySqliteOpenHelper.getInstance(this).removeQuote(quote);
+                        MySqliteOpenHelper mySqliteOpenHelper = MySqliteOpenHelper.getInstance(this);
+                        String quote = recAux.getQuoteFromPos(pos);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mySqliteOpenHelper.removeQuote(quote);
+                            }
+                        }).start();
+
                     }
+                    recAux.removeItem(pos);
+                    if(recAux.getItemCount() == 0) itemDelete.setVisible(false);
                 });
         builder.setNegativeButton(R.string.no, null);
         builder.create().show();

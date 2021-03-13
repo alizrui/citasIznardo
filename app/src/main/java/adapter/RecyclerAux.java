@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -25,13 +24,21 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.quotation_list_row, parent, false);
-        RecyclerAux.ViewHolder holder = new ViewHolder(view, intListener, intLongListener);
-        return holder;
+        return new ViewHolder(view, intListener, intLongListener);
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tvAuthor.setText(lista.get(position).getQuoteAuthor());
         holder.tvQuote.setText(lista.get(position).getQuoteText());
+    }
+
+    public void refresh(){
+        notifyDataSetChanged(); // por ejemplo
+    }
+
+    public void addItems(List<Quotation> list){
+        this.lista = list;
+        notifyDataSetChanged();
     }
 
     public int getItemCount() {
@@ -40,6 +47,10 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
 
     public String getAutFromPos(int position){
         return lista.get(position).getQuoteAuthor();
+    }
+
+    public String getQuoteFromPos(int position){
+        return lista.get(position).getQuoteText();
     }
 
     public void removeItem(int position){
@@ -65,7 +76,8 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
                 intListener.onItemClickListener(getAdapterPosition());
             });
             itemView.setOnLongClickListener(v -> {
-                intLongListener.onItemLongClickListener((String) tvQuote.getText());
+                intLongListener.onItemLongClickListener(getAdapterPosition());
+                //        intLongListener.onItemLongClickListener((String) tvQuote.getText());
                 return true;
             });
         }
@@ -75,10 +87,7 @@ public class RecyclerAux extends RecyclerView.Adapter<RecyclerAux.ViewHolder> {
     }
 
     public interface OnItemLongClickListener {
-        //void onItemLongClickListener(int position);
-        void onItemLongClickListener(String quote);
-        //void onItemLongClickListener(Quotation quote);
+        void onItemLongClickListener(int position);
+        //void onItemLongClickListener(String quote);
     }
-
-
 }

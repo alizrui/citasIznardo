@@ -25,4 +25,6 @@
     <string name="dialogrmall_q">Segur que vols esborrar totes les cites?</string>
     <string name="databases_1" translatable="false">Bases de dades</string>
     <string name="databases_2">Gestió de la base de dades</string>
+    <string name="english">Anglés</string>
+    <string name="russian">Rus</string>
 </resources>

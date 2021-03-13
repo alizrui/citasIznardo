@@ -34,4 +34,8 @@
     <string name="sqlite" translatable="false">SQLiteOpenHelper</string>
     <string name="get" translatable="false">GET</string>
     <string name="post" translatable="false">POST</string>
+    <string name="english">English</string>
+    <string name="russian">Russian</string>
+    <string name="en" translatable="false">en</string>
+    <string name="ru" translatable="false">ru</string>
 </resources>

@@ -7,9 +7,12 @@
         android:key="username"/>
     <PreferenceCategory>
         <ListPreference
-            android:title="@string/webservice_1"
-            android:summary="@string/webservice_2"
-            android:key="webservice" />
+            android:title="@string/language_1"
+            android:summary="@string/language_2"
+            android:key="language"
+            android:entries="@array/language_array"
+            android:defaultValue="@string/english"
+            android:entryValues="@array/language_values"/>
         <ListPreference
             android:title="@string/http_1"
             android:summary="@string/http_2"

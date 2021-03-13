@@ -7,7 +7,7 @@
     tools:context=".activities.QuotationActivity">
 
     <ProgressBar
-        android:id="@+id/progressBar2"
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="322dp"
         android:layout_height="29dp"
@@ -33,7 +33,7 @@
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="61dp"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar2"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
