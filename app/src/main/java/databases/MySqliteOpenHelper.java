@@ -43,7 +43,7 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
         return mySOH;
     }
 
-    public ArrayList<Quotation> getQuotations(){
+    public ArrayList<Quotation> getQuotes(){
         SQLiteDatabase db = mySOH.getReadableDatabase();
         Cursor cursor = db.query("quotation_table", new String[]{"quote_col","author_col"},
                 null,null,null,null,null);
@@ -55,7 +55,7 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
         return listQ;
     }
 
-    public boolean isQuotation(String quote){
+    public boolean isQuote(String quote){
         Boolean res = false;
         SQLiteDatabase db = mySOH.getReadableDatabase();
         Cursor cursor = db.query("quotation_table", null, "quote_col=?",
@@ -67,7 +67,7 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public void addQuotation(String quote, String author){
+    public void addQuote(String quote, String author){
         ContentValues values = new ContentValues();
         values.put("quote_col", quote);
         values.put("author_col",author);
@@ -78,13 +78,13 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void removeAllQuotes(){
+    public void deleteAllQuotes(){
         SQLiteDatabase db = mySOH.getWritableDatabase();
         db.delete("quotation_table",null,null);
         db.close();
     }
 
-    public void removeQuote(String quote){
+    public void deleteQuote(String quote){
         SQLiteDatabase db = mySOH.getWritableDatabase();
         db.delete("quotation_table","quote_col=?",new String[]{quote});
         db.close();

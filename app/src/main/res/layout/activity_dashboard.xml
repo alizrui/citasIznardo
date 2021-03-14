@@ -8,58 +8,59 @@
     tools:context=".activities.DashboardActivity">
 
     <Button
-        android:id="@+id/bGetQuotes"
-        android:layout_width="395dp"
-        android:layout_height="181dp"
-        android:onClick="onClickButton"
-        android:text="@string/get_q"
-        android:background="@drawable/shape_n_color"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toTopOf="@+id/bFavQuotes"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/bFavQuotes"
-        android:layout_width="395dp"
-        android:layout_height="182dp"
+        android:layout_width="@dimen/button_dashboardv_width"
+        android:layout_height="@dimen/button_dashboardv_height"
+        android:background="@drawable/shape_n_color"
         android:onClick="onClickButton"
         android:text="@string/fav_q"
-        android:background="@drawable/shape_n_color"
         android:textColor="@color/text_color"
+        android:textSize="@dimen/button_textv_size"
         app:layout_constraintBottom_toTopOf="@+id/bSettings"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bGetQuotes" />
 
     <Button
+        android:id="@+id/bAbout"
+        android:layout_width="@dimen/button_dashboardv_width"
+        android:layout_height="@dimen/button_dashboardv_height"
+        android:background="@drawable/shape_n_color"
+        android:onClick="onClickButton"
+        android:text="@string/about"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/button_textv_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bSettings" />
+
+    <Button
+        android:id="@+id/bGetQuotes"
+        android:layout_width="@dimen/button_dashboardv_width"
+        android:layout_height="@dimen/button_dashboardv_height"
+        android:background="@drawable/shape_n_color"
+        android:onClick="onClickButton"
+        android:text="@string/get_q"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/button_textv_size"
+        app:layout_constraintBottom_toTopOf="@+id/bFavQuotes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/bSettings"
-        android:layout_width="395dp"
-        android:layout_height="181dp"
+        android:layout_width="@dimen/button_dashboardv_width"
+        android:layout_height="@dimen/button_dashboardv_height"
+        android:background="@drawable/shape_n_color"
         android:onClick="onClickButton"
         android:text="@string/settings"
-        android:background="@drawable/shape_n_color"
         android:textColor="@color/text_color"
+        android:textSize="@dimen/button_textv_size"
         app:layout_constraintBottom_toTopOf="@+id/bAbout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bFavQuotes" />
 
-    <Button
-        android:id="@+id/bAbout"
-        android:layout_width="395dp"
-        android:layout_height="182dp"
-        android:onClick="onClickButton"
-        android:text="@string/about"
-        android:background="@drawable/shape_n_color"
-        android:textColor="@color/text_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSettings" />
 </androidx.constraintlayout.widget.ConstraintLayout>

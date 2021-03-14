@@ -5,11 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
-import android.widget.EditText;
 
 import com.example.citasiznardo.R;
 
@@ -26,9 +22,8 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.flSettings, new SettingsFragment())
                 .commit();
 
-
+        /* If the application has an ActionBar the enable the up navigation */
         final ActionBar actionBar = getSupportActionBar();
-        // If the application has an ActionBar the enable the up navigation
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -44,16 +39,13 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences_settings, rootKey);
 
-            /* Esto no haría falta hacerlo normalmente, acceso solo a través de uno de los mecanismos */
+            /* Destroys the mysqlite instance and changes the listener */
             Preference pref = findPreference("database");
-            Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if(((String) newValue).equals(getResources().getString(R.string.sqlite))){
-                        QuotationDatabase.destroyInstance();
-                    }
-                    return true;
+            Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
+                if(newValue.equals(getResources().getString(R.string.sqlite))){
+                    QuotationDatabase.destroyInstance();
                 }
+                return true;
             };
             if (pref != null) {
                 pref.setOnPreferenceChangeListener(listener);

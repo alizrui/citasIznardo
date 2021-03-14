@@ -17,7 +17,7 @@ public class Quotation {
 
     public Quotation(){
     }
-    public Quotation(String quote, String auth){
+    public Quotation(@NonNull String quote, String auth){
         quoteText = quote;
         quoteAuthor = auth;
     }
@@ -34,11 +34,12 @@ public class Quotation {
         this.quoteAuthor = quoteAuthor;
     }
 
+    @NonNull
     public String getQuoteText() {
         return quoteText;
     }
 
-    public void setQuoteText(String quoteText) {
+    public void setQuoteText(@NonNull String quoteText) {
         this.quoteText = quoteText;
     }
 

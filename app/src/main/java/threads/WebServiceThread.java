@@ -1,18 +1,13 @@
 package threads;
 
-import android.content.SharedPreferences;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
-import com.example.citasiznardo.R;
 import com.example.citasiznardo.activities.QuotationActivity;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
@@ -28,16 +23,19 @@ public class WebServiceThread extends Thread{
 
     private final WeakReference<QuotationActivity> reference;
     private final String language;
-    private final String httpmethod;
+    private final String http_method;
 
     public WebServiceThread(QuotationActivity reference, String language, String method){
         this.reference = new WeakReference<>(reference);
         this.language = language;
-        this.httpmethod = method;
+        this.http_method = method;
     }
 
     @Override
     public void run() {
+        /* Shows the progressBar in the main thread */
+        reference.get().runOnUiThread(()->reference.get().showProgress());
+
         Quotation quote = new Quotation("","");
         Uri.Builder builder = new Uri.Builder();
         builder.scheme("https");
@@ -45,7 +43,8 @@ public class WebServiceThread extends Thread{
         builder.appendPath("api");
         builder.appendPath("1.0");
         builder.appendPath("");
-        if(httpmethod.equals("GET")) {
+        if(http_method.equals("GET")) {
+            /* Gets the quote using http GET method */
             builder.appendQueryParameter("method","getQuote");
             builder.appendQueryParameter("format","json");
             builder.appendQueryParameter("lang",language);
@@ -67,6 +66,7 @@ public class WebServiceThread extends Thread{
             }
 
         } else {
+            /* Gets the quote using http POST method */
             try {
                 String body = "method=getQuote&format=json&lang="+language;
                 URL url = new URL(builder.build().toString());
@@ -92,17 +92,10 @@ public class WebServiceThread extends Thread{
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
         Quotation finalQuote = quote;
-        reference.get().runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        reference.get().showQuote(finalQuote);
-                    }
-                }
-        );
+
+        /* Shows the quote on the main thread */
+        reference.get().runOnUiThread(() -> reference.get().showQuote(finalQuote));
     }
 }

@@ -20,6 +20,8 @@ public class DashboardActivity extends AppCompatActivity {
     @SuppressLint("NonConstantResourceId")
     public void onClickButton(View view) {
         Intent intent = new Intent();
+
+        /* Switch between the possible activities and start the activity */
         int id = view.getId();
         switch (id) {
             case R.id.bGetQuotes:
@@ -34,8 +36,9 @@ public class DashboardActivity extends AppCompatActivity {
             case R.id.bAbout:
                 intent = new Intent(this, AboutActivity.class);
                 break;
+            default:
+                break;
         }
         startActivity(intent);
-
     }
 }

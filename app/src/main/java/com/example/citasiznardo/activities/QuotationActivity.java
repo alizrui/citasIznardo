@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.net.ConnectivityDiagnosticsManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -15,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,8 +21,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.citasiznardo.R;
-
-import org.w3c.dom.Text;
 
 import adapter.Quotation;
 import databases.MySqliteOpenHelper;
@@ -34,34 +30,51 @@ import threads.WebServiceThread;
 public class QuotationActivity extends AppCompatActivity {
 
     private boolean addVisible = false;
-    private Menu optionsMenu = null;
     private MenuItem addItem = null;
     private MenuItem refreshItem = null;
+
     private TextView tvScroll;
     private TextView tvAuthor;
     private ProgressBar progressBar;
+
     private String language;
-    private String httpmethod;
+    private String http_method;
     private Boolean databaseMode = true; // sqlite = false, room = true
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quotation);
+
+        /*
+        * Keep a reference to:
+        *  the TextView displaying the quote
+        *  the TextView displaying the quote's author
+        *  the progressBar showing the progress of getting a quotes
+        */
         tvScroll = findViewById(R.id.tvScroll1);
         tvAuthor = findViewById(R.id.tvAuthor);
         progressBar = findViewById(R.id.progressBar);
+
+        /*
+        * Gets the SharedPreferences to get:
+        *  database mode: room or mysqlite
+        *  language of the requested quotations
+        *  the http method for getting the quotations
+        *  the name of the user
+        */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         databaseMode = !prefs.getString("database", "").equals(getResources().getString(R.string.sqlite));
         language = prefs.getString("language","");
-        httpmethod = prefs.getString("http","");
+        http_method = prefs.getString("http","");
+        String name = prefs.getString("username", "");
+
+        /* Recovers the saved state */
         if(savedInstanceState != null) {
             tvScroll.setText(savedInstanceState.getString("quote_key"));
             tvAuthor.setText(savedInstanceState.getString("author_key"));
             addVisible = savedInstanceState.getBoolean("visible_add");
-
         } else {
-            String name = prefs.getString("username", "");
             tvScroll.setText(String.format((String) tvScroll.getText(), (name == null || name.equals("")) ? "Nameless One" : name));
         }
     }
@@ -69,10 +82,11 @@ public class QuotationActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.quotation_menu, menu);
+
+        /* Keeps a reference of the add item and the refresh item */
         addItem = menu.findItem(R.id.item_add);
         refreshItem = menu.findItem(R.id.item_refresh);
         addItem.setVisible(addVisible);
-        optionsMenu = menu;
         return true;
     }
 
@@ -83,25 +97,15 @@ public class QuotationActivity extends AppCompatActivity {
             case R.id.item_add:
                 if(databaseMode){
                     QuotationDatabase quotationDatabase = QuotationDatabase.getInstance(this);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            quotationDatabase.quotesDao().addQuote(new Quotation((String) tvScroll.getText(), (String) tvAuthor.getText()));
-                        }
-                    }).start();
+                    new Thread(() -> quotationDatabase.quotesDao().addQuote(new Quotation((String) tvScroll.getText(), (String) tvAuthor.getText()))).start();
                 } else {
                     MySqliteOpenHelper mySqliteOpenHelper = MySqliteOpenHelper.getInstance(this);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mySqliteOpenHelper.addQuotation((String) tvScroll.getText(), (String) tvAuthor.getText());
-                        }
-                    }).start();
+                    new Thread(() -> mySqliteOpenHelper.addQuote((String) tvScroll.getText(), (String) tvAuthor.getText())).start();
                 }
                 item.setVisible(false);
                 return true;
             case R.id.item_refresh:
-                WebServiceThread webServiceThread = new WebServiceThread(this,language,httpmethod);
+                WebServiceThread webServiceThread = new WebServiceThread(this,language, http_method);
                 if(isConnected()) webServiceThread.start();
                 //onClicAuthor(item.getActionView());
                 return true;
@@ -110,13 +114,7 @@ public class QuotationActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("StringFormatInvalid")
-    public void onClicAuthor(View view) {
-        String text = getResources().getString(R.string.sample_quo);
-        String author = getResources().getString(R.string.sample_aut);
-        setQuote(new Quotation(text,author));
-    }
-
+    /* Saves the quote, the author and the visibility of the add item */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -126,9 +124,12 @@ public class QuotationActivity extends AppCompatActivity {
         outState.putBoolean("visible_add",addVisible);
     }
 
+    /* Shows the quote received */
     private void setQuote(Quotation quote){
         tvScroll.setText(quote.getQuoteText());
         tvAuthor.setText(quote.getQuoteAuthor());
+
+        /* Checks if the received quotation is already on the favourite quotations */
         if(databaseMode){
             QuotationDatabase quotationDatabase = QuotationDatabase.getInstance(this);
             new Thread(new Runnable() {
@@ -146,27 +147,32 @@ public class QuotationActivity extends AppCompatActivity {
                 final Handler handler = new Handler(Looper.getMainLooper());
                 @Override
                 public void run() {
-                    addVisible = !mySqliteOpenHelper.isQuotation((String) tvScroll.getText());
+                    addVisible = !mySqliteOpenHelper.isQuote((String) tvScroll.getText());
                     handler.post(() -> addItem.setVisible(addVisible));
                 }
             }).start();
         }
     }
 
-    /* Hides ActionBar and shows progress bar */
+    /* Hides ActionBar, TextViews and shows progress bar */
     public void showProgress(){
         if (addItem != null) addItem.setVisible(false);
         if (refreshItem != null) refreshItem.setVisible(false);
+        tvScroll.setVisibility(View.INVISIBLE);
+        tvAuthor.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
     }
 
     /* Shows received quote and hide progress bar */
     public void showQuote(Quotation quote){
+        tvScroll.setVisibility(View.VISIBLE);
+        tvAuthor.setVisibility(View.VISIBLE);
         progressBar.setVisibility(View.INVISIBLE);
         setQuote(quote);
         refreshItem.setVisible(true);
     }
 
+    /* Checks if the connexion is on */
     public boolean isConnected(){
         boolean res = false;
 
@@ -184,5 +190,13 @@ public class QuotationActivity extends AppCompatActivity {
             }
         }
         return res;
+    }
+
+    /* Sets a quotation sample */
+    @SuppressLint("StringFormatInvalid")
+    public void onClicAuthor(View view) {
+        String text = getResources().getString(R.string.sample_quo);
+        String author = getResources().getString(R.string.sample_aut);
+        setQuote(new Quotation(text,author));
     }
 }

@@ -2,4 +2,12 @@
 <resources>
 
     <dimen name="big_dim">20sp</dimen>
+    <dimen name="button_dashboardv_width">375dp</dimen>
+    <dimen name="button_dashboardv_height">160dp</dimen>
+    <dimen name="button_textv_size">20sp</dimen>
+    <dimen name="button_dashboardh_width">700dp</dimen>
+    <dimen name="button_dashboardh_height">75dp</dimen>
+    <dimen name="button_texth_size">20sp</dimen>
+    <dimen name="quotes_size">25sp</dimen>
+    <dimen name="author_size">20sp</dimen>
 </resources>

@@ -8,10 +8,13 @@
 
     <Button
         android:id="@+id/bGetQuotes"
-        android:layout_width="729dp"
-        android:layout_height="101dp"
+        android:layout_width="@dimen/button_dashboardh_width"
+        android:layout_height="@dimen/button_dashboardh_height"
         android:onClick="onClickButton"
         android:text="@string/get_q"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/button_texth_size"
         app:layout_constraintBottom_toTopOf="@+id/bFavQuotes"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -20,10 +23,13 @@
 
     <Button
         android:id="@+id/bFavQuotes"
-        android:layout_width="729dp"
-        android:layout_height="102dp"
+        android:layout_width="@dimen/button_dashboardh_width"
+        android:layout_height="@dimen/button_dashboardh_height"
+        android:background="@drawable/shape_n_color"
         android:onClick="onClickButton"
         android:text="@string/fav_q"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/button_texth_size"
         app:layout_constraintBottom_toTopOf="@+id/bSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -32,10 +38,13 @@
 
     <Button
         android:id="@+id/bSettings"
-        android:layout_width="729dp"
-        android:layout_height="101dp"
+        android:layout_width="@dimen/button_dashboardh_width"
+        android:layout_height="@dimen/button_dashboardh_height"
         android:onClick="onClickButton"
         android:text="@string/settings"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/button_texth_size"
         app:layout_constraintBottom_toTopOf="@+id/bAbout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -44,10 +53,13 @@
 
     <Button
         android:id="@+id/bAbout"
-        android:layout_width="729dp"
-        android:layout_height="102dp"
+        android:layout_width="@dimen/button_dashboardh_width"
+        android:layout_height="@dimen/button_dashboardh_height"
         android:onClick="onClickButton"
         android:text="@string/about"
+        android:background="@drawable/shape_n_color"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/button_texth_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
